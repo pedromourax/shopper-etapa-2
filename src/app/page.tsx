@@ -1,12 +1,38 @@
 import Header from "@/components/header";
 import Login from "@/components/login";
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div className="h-dvh flex flex-col">
       <Header />
-      <Login />
+      <div className="flex flex-col items-center justify-center mt-28 h-fit w-full ">
+        <p className="text-6xl font-semibold text-center font-biennale">
+          Monitore seu consumo <br /> mensal facilmente
+        </p>
+        <p className="mt-4 font-biennale text-lg text-center text-neutral-400">
+          Acompanhe o seu consumo para identificar padrões e oportunidades de
+          <br />
+          economia. Basta enviar uma foto do medidor para o nosso sistema.
+        </p>
+      </div>
+      <div className="mt-8 flex gap-5 items-center justify-center w-full h-fit">
+        <Link
+          href={"/login"}
+          className="rounded-full py-3 px-6 border-2 border-white hover:shadow-white hover:shadow-2xl"
+        >
+          Login
+        </Link>
+        <Link
+          href={"/medidas"}
+          className="rounded-full py-3 px-6 border-2 bg-white hover:bg-transparent hover:text-white text-black font-semibold"
+        >
+          Comece já
+        </Link>
+      </div>
+      <div className="w-full flex items-center justify-center mt-6">
+        <img src="medidor.png" style={{ width: 290 }} className="opacity-60" />
+      </div>
     </div>
   );
 }

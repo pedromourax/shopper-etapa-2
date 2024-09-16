@@ -6,7 +6,7 @@ export const getMedidas = async () => {
   const customerCode = cookies().get("customer_code");
 
   const response = await fetch(
-    `http://localhost:3000/${customerCode?.value}/list2`,
+    `http://172.24.96.1:3000/${customerCode?.value}/list2`,
     {
       method: "GET",
       headers: {

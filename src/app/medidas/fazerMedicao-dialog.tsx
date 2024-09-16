@@ -25,6 +25,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { ColorRing } from "react-loader-spinner";
+import { handleUpload } from "./handleUpload";
 
 const FazerMedicao = () => {
   const [date, setDate] = useState<Date>();
@@ -40,37 +41,24 @@ const FazerMedicao = () => {
     router.refresh();
   }, []);
 
-  const handleConfirm = async () => {
+  const handleUploadButton = async () => {
     try {
       setIsLoading(true);
+
       if (image == "" || !date || measureType == "") {
         Cookies.set("toastStatus", "error");
         return Cookies.set("toastMessage", "Preencha os campos corretamente");
       }
-      const response: any = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            customer_code,
-            measure_datetime: date,
-            measure_type: measureType,
-            image,
-          }),
-        }
-      );
+      const response = await handleUpload(date, measureType, image);
       if (!response.ok) {
-        if (response.status == 400) {
+        if (response.error_code == "INVALID_DATA") {
           Cookies.set("toastStatus", "error");
           return Cookies.set(
             "toastMessage",
             "Os dados fornecidos no corpo da requisição são inválidos"
           );
         }
-        if (response.status == 409) {
+        if (response.error_code == "DOUBLE_REPORT") {
           Cookies.set("toastStatus", "error");
           return Cookies.set(
             "toastMessage",
@@ -85,7 +73,7 @@ const FazerMedicao = () => {
       return router.push("/medidas");
     } catch (error: any) {
       Cookies.set("toastStatus", "error");
-      Cookies.set("toastMessage", error.message);
+      Cookies.set("toastMessage", "Erro interno do servidor");
     } finally {
       setIsOpen(false);
       setIsLoading(false);
@@ -166,7 +154,7 @@ const FazerMedicao = () => {
         </div>
         <DialogFooter>
           <Button
-            onClick={handleConfirm}
+            onClick={handleUploadButton}
             className="w-24"
             variant={"outline"}
             type="submit"

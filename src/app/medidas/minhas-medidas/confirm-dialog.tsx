@@ -12,9 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { DialogClose } from "@radix-ui/react-dialog";
-import Link from "next/link";
 import { FC, useState } from "react";
+import { handleConfirm } from "./handleConfirm";
 
 interface IConfirmValue {
   measure_uuid: string;
@@ -30,20 +29,14 @@ const ConfirmValue: FC<IConfirmValue> = ({
   const [valor, setValor] = useState(confirmedValue);
   const { toast } = useToast();
 
-  const handleConfirm = async () => {
+  const handleConfirmButton = async () => {
     const confirmed_value = parseInt(valor);
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/confirm`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ confirmed_value, measure_uuid }),
-        }
+      let response: any;
+      await handleConfirm(confirmed_value, measure_uuid).then(
+        (res: any) => (response = res)
       );
-      if (!response.ok) {
+      if (!response?.ok) {
         toast({
           title: `Erro`,
           description: `Não foi possível confirmar.`,
@@ -84,7 +77,11 @@ const ConfirmValue: FC<IConfirmValue> = ({
         </div>
         <DialogFooter>
           <a href={"/medidas/minhas-medidas"}>
-            <Button onClick={handleConfirm} variant={"outline"} type="submit">
+            <Button
+              onClick={handleConfirmButton}
+              variant={"outline"}
+              type="submit"
+            >
               Confirmar
             </Button>
           </a>

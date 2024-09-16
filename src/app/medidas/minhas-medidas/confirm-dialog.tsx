@@ -33,8 +33,7 @@ const ConfirmValue: FC<IConfirmValue> = ({
   const handleConfirm = async () => {
     const confirmed_value = parseInt(valor);
     try {
-      console.log("fetching");
-      const response = await fetch("http://localhost:3000/confirm", {
+      const response = await fetch("127.0.0.1:3000/confirm", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

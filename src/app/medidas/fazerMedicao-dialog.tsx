@@ -48,7 +48,7 @@ const FazerMedicao = () => {
         return Cookies.set("toastMessage", "Preencha os campos corretamente");
         // return router.push("/medidas");
       }
-      const response: any = await fetch("http://localhost:3000/upload", {
+      const response: any = await fetch("127.0.0.1:3000/upload", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,6 @@ const FazerMedicao = () => {
 
       return router.push("/medidas");
     } catch (error: any) {
-      console.log(error);
       Cookies.set("toastStatus", "error");
       Cookies.set("toastMessage", error.message);
     } finally {

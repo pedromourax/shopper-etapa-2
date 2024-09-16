@@ -35,7 +35,7 @@ export default function Login() {
             onChange={(e) => setCustomerCode(e.target.value)}
             className="mt-2"
             type="text"
-            placeholder="Digite o seu código"
+            placeholder="Digite o seu customer_code"
           />
           <button
             onClick={handleLogin}

@@ -6,8 +6,6 @@ export const handleUpload = async (
   measure_type: string,
   image: any
 ) => {
-  console.log(image);
-
   const customerCode = await cookies().get("customer_code");
   const customer_code = customerCode?.value || "";
   const response: any = await fetch(

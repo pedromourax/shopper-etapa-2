@@ -87,7 +87,7 @@ const FazerMedicao = () => {
       setIsOpen(false);
       setIsLoading(false);
       router.push("/medidas");
-      // window.location.reload();
+      window.location.reload();
     }
   };
 

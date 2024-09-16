@@ -9,9 +9,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import Webcam from "react-webcam";
 import { Input } from "@/components/ui/input";
+import image2uri from "image2uri";
 import { Label } from "@/components/ui/label";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, CameraIcon } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
@@ -20,7 +22,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -29,26 +31,33 @@ import { handleUpload } from "./handleUpload";
 
 const FazerMedicao = () => {
   const [date, setDate] = useState<Date>();
-  const [image, setImage] = useState("");
   const [measureType, setMeasureType] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const customer_code = Cookies.get("customer_code");
-
   useEffect(() => {
     router.refresh();
   }, []);
 
+  const webcamRef = useRef<any>(null);
+  const [imageSrc, setImageSrc] = useState<any>(null);
+
+  const capturePhoto = () => {
+    const image = webcamRef?.current?.getScreenshot();
+    setImageSrc(image);
+  };
+
   const handleUploadButton = async () => {
     try {
       setIsLoading(true);
+      const image = imageSrc.split(",")[1];
 
-      if (image == "" || !date || measureType == "") {
+      if (!image || !date || measureType == "") {
         Cookies.set("toastStatus", "error");
         return Cookies.set("toastMessage", "Preencha os campos corretamente");
       }
+
       const response = await handleUpload(date, measureType, image);
       if (!response.ok) {
         if (response.error_code == "INVALID_DATA") {
@@ -78,7 +87,7 @@ const FazerMedicao = () => {
       setIsOpen(false);
       setIsLoading(false);
       router.push("/medidas");
-      window.location.reload();
+      // window.location.reload();
     }
   };
 
@@ -123,12 +132,33 @@ const FazerMedicao = () => {
                 />
               </PopoverContent>
             </Popover>
-            <Input
+            {/* <Input
               onChange={(e) => setImage(e.target.value)}
               id="Valor"
               placeholder="Image/base64"
               className="col-span-3 w-[280px]"
-            />
+            /> */}
+
+            {imageSrc ? (
+              <img src={imageSrc} className="rounded-md"></img>
+            ) : (
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                width={500}
+                className="rounded-md"
+              />
+            )}
+
+            {/* Botão de Captura */}
+            <button
+              className="flex gap-2 bg-white rounded-md p-1 w-full items-center justify-center text-black"
+              onClick={capturePhoto}
+            >
+              <CameraIcon /> Capturar foto
+            </button>
+
             <div className="flex flex-col gap-3 items-start h-fit w-[280px]">
               <div>Tipo de medida:</div>
               <RadioGroup onValueChange={(e) => setMeasureType(e)}>

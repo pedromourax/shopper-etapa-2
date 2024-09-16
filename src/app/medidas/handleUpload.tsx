@@ -4,8 +4,10 @@ import { cookies } from "next/headers";
 export const handleUpload = async (
   measure_datetime: Date,
   measure_type: string,
-  image: string
+  image: any
 ) => {
+  console.log(image);
+
   const customerCode = await cookies().get("customer_code");
   const customer_code = customerCode?.value || "";
   const response: any = await fetch(

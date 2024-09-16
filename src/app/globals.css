@@ -95,3 +95,7 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.home-page-buttons:hover {
+  box-shadow: 0 0px 50px -12px rgb(255 255 255 / 1);
+}

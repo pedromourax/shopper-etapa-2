@@ -1,3 +1,4 @@
+"use client";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,24 +10,68 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { CirclePlus, FileChartColumn, Hourglass } from "lucide-react";
+import { useRouter } from "next/navigation";
+import FazerMedicao from "./fazerMedicao-dialog";
+// import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { useToast } from "@/hooks/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Medidas() {
+  const router = useRouter();
+  const toastMessage = Cookies.get("toastMessage");
+  const toastStatus = Cookies.get("toastStatus");
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (toastMessage) {
+      if (toastStatus == "success") {
+        // toast.success(toastMessage);
+        toast({
+          title: "✅ Sucesso",
+          description: toastMessage,
+        });
+        Cookies.remove("toastMessage");
+        Cookies.remove("toastStatus");
+      } else if (toastStatus == "error") {
+        // toast.error(toastMessage);
+        toast({
+          title: "❌ Erro",
+          description: toastMessage,
+        });
+        Cookies.remove("toastMessage");
+        Cookies.remove("toastStatus");
+      }
+    }
+  }, []);
+
+  const verMedidas = () => {
+    router.push("/medidas/minhas-medidas");
+  };
+
+  const verRelatorio = () => {
+    router.push("/medidas/relatorio");
+  };
+
   return (
     <div className="h-dvh">
       <Header />
-      <div className="flex items-center justify-center gap-4 mt-12 px-36 w-full h-fit">
-        <Card className="w-fit text-white bg-black">
+      <Toaster />
+      <div className="flex items-center justify-center gap-4 mt-12 px-36 w-full h-fit max-md:px-6 max-md:flex-col max-md:pb-12">
+        <Card className="w-fit text-white bg-black max-md:w-full">
           <CardHeader>
             <CardTitle>Medidas</CardTitle>
             <CardDescription>Veja todas as suas medidas.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex items-center justify-center">
               <Hourglass size={256} color="#fff" />
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button
+              onClick={verMedidas}
               variant={"ghost"}
               className="bg-white border-2 hover:bg-transparent hover:text-white text-black w-full"
             >
@@ -35,27 +80,22 @@ export default function Medidas() {
           </CardFooter>
         </Card>
 
-        <Card className="w-fit text-white bg-black">
+        <Card className="w-fit text-white bg-black max-md:w-full">
           <CardHeader>
             <CardTitle>Fazer medição</CardTitle>
             <CardDescription>Adicione uma nova medição.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex items-center justify-center">
               <CirclePlus size={256} color="#fff" />
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button
-              variant={"ghost"}
-              className="bg-white border-2 hover:bg-transparent hover:text-white text-black w-full"
-            >
-              Fazer medição
-            </Button>
+            <FazerMedicao />
           </CardFooter>
         </Card>
 
-        <Card className="w-fit text-white bg-black">
+        <Card className="w-fit text-white bg-black max-md:w-full">
           <CardHeader>
             <CardTitle>Relatório</CardTitle>
             <CardDescription>
@@ -63,12 +103,13 @@ export default function Medidas() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex items-center justify-center">
               <FileChartColumn size={256} color="#fff" />
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
             <Button
+              onClick={verRelatorio}
               variant={"ghost"}
               className="bg-white border-2 hover:bg-transparent hover:text-white text-black w-full"
             >

@@ -1,5 +1,4 @@
 import Header from "@/components/header";
-import Login from "@/components/login";
 import Link from "next/link";
 
 export default function Home() {
@@ -7,10 +6,10 @@ export default function Home() {
     <div className="h-dvh flex flex-col">
       <Header />
       <div className="flex flex-col items-center justify-center mt-28 h-fit w-full ">
-        <p className="text-6xl font-semibold text-center font-biennale">
+        <p className="text-6xl max-md:text-3xl font-semibold text-center font-biennale">
           Monitore seu consumo <br /> mensal facilmente
         </p>
-        <p className="mt-4 font-biennale text-lg text-center text-neutral-400">
+        <p className="mt-4 font-biennale text-lg max-md:text-sm max-md text-wrap max-md:px-6 text-center text-neutral-400">
           Acompanhe o seu consumo para identificar padrões e oportunidades de
           <br />
           economia. Basta enviar uma foto do medidor para o nosso sistema.
@@ -19,13 +18,13 @@ export default function Home() {
       <div className="mt-8 flex gap-5 items-center justify-center w-full h-fit">
         <Link
           href={"/login"}
-          className="rounded-full py-3 px-6 border-2 border-white hover:shadow-white hover:shadow-2xl"
+          className="rounded-full py-3 px-6 border-2 border-white hover:shadow-white transition-all home-page-buttons"
         >
           Login
         </Link>
         <Link
           href={"/medidas"}
-          className="rounded-full py-3 px-6 border-2 bg-white hover:bg-transparent hover:text-white text-black font-semibold"
+          className="rounded-full py-3 px-6 border-2 bg-white text-black home-page-buttons transition-all  font-semibold"
         >
           Comece já
         </Link>

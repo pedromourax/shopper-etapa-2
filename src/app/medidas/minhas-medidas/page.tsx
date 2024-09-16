@@ -17,11 +17,6 @@ interface Medida {
   image_url: string;
 }
 
-// interface Medidas {
-//   customer_code: string;
-//   measures: Medida[];
-// }
-
 export default function MinhasMedidas() {
   const [medidas, setMedidas] = useState<any>();
   const [error, setError] = useState(false);
@@ -109,8 +104,6 @@ export default function MinhasMedidas() {
               ))}
           </div>
         ) : (
-          //   <p>Carregando dados do gráfico...</p>
-
           <div className="flex gap-2 items-center text-xl max-md:flex-col">
             Nenhuma medida encontrada
             <ColorRing

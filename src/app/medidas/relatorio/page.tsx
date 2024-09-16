@@ -1,5 +1,4 @@
 "use client";
-// components/LineChart.tsx
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -56,13 +55,8 @@ export default function LineChart() {
   };
 
   useEffect(() => {
-    // Função para buscar os dados da API
     const fetchData = async () => {
-      // Suponha que esta é a URL da API que retorna os dados com a interface Medidas
       const data: Medidas = await getMedidas();
-      //   const data: Medidas = await response.json();
-
-      // Extrair labels (datas) e valores das medidas
       let labels: any = [];
       let values: any = [];
       if (data.measures) {
@@ -74,7 +68,6 @@ export default function LineChart() {
         );
       }
 
-      // Configurar os dados do gráfico
       setChartData({
         labels: labels,
         datasets: [
@@ -93,7 +86,6 @@ export default function LineChart() {
     fetchData();
   }, []);
 
-  // Configurações do gráfico (opcional)
   const options = {
     responsive: true,
     plugins: {
@@ -124,7 +116,6 @@ export default function LineChart() {
         {chartData ? (
           <Line data={chartData} options={options} />
         ) : (
-          //   <p>Carregando dados do gráfico...</p>
           <ColorRing
             visible={true}
             height="80"

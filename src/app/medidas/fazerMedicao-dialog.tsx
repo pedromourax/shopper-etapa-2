@@ -46,20 +46,22 @@ const FazerMedicao = () => {
       if (image == "" || !date || measureType == "") {
         Cookies.set("toastStatus", "error");
         return Cookies.set("toastMessage", "Preencha os campos corretamente");
-        // return router.push("/medidas");
       }
-      const response: any = await fetch("http://172.24.96.1:3000/upload", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          customer_code,
-          measure_datetime: date,
-          measure_type: measureType,
-          image,
-        }),
-      });
+      const response: any = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/upload`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            customer_code,
+            measure_datetime: date,
+            measure_type: measureType,
+            image,
+          }),
+        }
+      );
       if (!response.ok) {
         if (response.status == 400) {
           Cookies.set("toastStatus", "error");
@@ -75,7 +77,6 @@ const FazerMedicao = () => {
             "Já existe uma leitura para este tipo no mês atual"
           );
         }
-        // return router.push("/medidas");
       }
 
       Cookies.set("toastStatus", "success");
@@ -138,7 +139,6 @@ const FazerMedicao = () => {
               onChange={(e) => setImage(e.target.value)}
               id="Valor"
               placeholder="Image/base64"
-              // defaultValue={"confirmedValue"}
               className="col-span-3 w-[280px]"
             />
             <div className="flex flex-col gap-3 items-start h-fit w-[280px]">

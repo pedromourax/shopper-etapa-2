@@ -12,7 +12,6 @@ import {
 import { CirclePlus, FileChartColumn, Hourglass } from "lucide-react";
 import { useRouter } from "next/navigation";
 import FazerMedicao from "./fazerMedicao-dialog";
-// import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { useToast } from "@/hooks/use-toast";
@@ -27,7 +26,6 @@ export default function Medidas() {
   useEffect(() => {
     if (toastMessage) {
       if (toastStatus == "success") {
-        // toast.success(toastMessage);
         toast({
           title: "✅ Sucesso",
           description: toastMessage,
@@ -35,7 +33,6 @@ export default function Medidas() {
         Cookies.remove("toastMessage");
         Cookies.remove("toastStatus");
       } else if (toastStatus == "error") {
-        // toast.error(toastMessage);
         toast({
           title: "❌ Erro",
           description: toastMessage,

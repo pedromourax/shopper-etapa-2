@@ -33,13 +33,16 @@ const ConfirmValue: FC<IConfirmValue> = ({
   const handleConfirm = async () => {
     const confirmed_value = parseInt(valor);
     try {
-      const response = await fetch("http://172.24.96.1:3000/confirm", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ confirmed_value, measure_uuid }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/confirm`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ confirmed_value, measure_uuid }),
+        }
+      );
       if (!response.ok) {
         toast({
           title: `Erro`,
